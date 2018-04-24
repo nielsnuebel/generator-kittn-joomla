@@ -38,7 +38,10 @@ function addScriptDependencies (files = {}, context) {
       'webpack-config-utils': '^2.3.0',
       'webpack-dev-middleware': '^3.1.0',
       'webpack-hot-middleware': '^2.21.2',
-      'webpack-merge': '^4.1.2'
+      'webpackbar': '^1.5.1',
+      'webpack-stylish': '^0.1.8',
+      'webpack-merge': '^4.1.2',
+      'write-file-webpack-plugin': '^4.2.0'
     },
     dependencies: {
       'bowser': '^1.9.3',
@@ -46,20 +49,6 @@ function addScriptDependencies (files = {}, context) {
       'svgxuse': '^1.2.6'
     }
   })
-
-  if (
-    (context.props.projectusage === 'html' &&
-      context.props.projectstructure === 'uncompiled') ||
-    context.props.projectusage === 'webpackApp' ||
-    (context.props.projectusage === 'craft' ||
-      context.props.projectusage === 'craftCB')
-  ) {
-    extend(files.pkg, {
-      devDependencies: {
-        'write-file-webpack-plugin': '^4.2.0'
-      }
-    })
-  }
 
   if (context.props.projectusage !== 'webpackApp') {
     extend(files.pkg, {
@@ -101,10 +90,25 @@ function addScriptDependencies (files = {}, context) {
     })
   }
 
+  // Webpack Bundle analyzer
+  if (
+    context.props.projectusage === 'joomla' ||
+    context.props.projectusage === 'joomlaCB'
+  ) {
+    extend(files.pkg, {
+      scripts: {
+        'webpack:analyze': `webpack-bundle-analyzer webpack/stats.json dist/templates/${
+          context.props.projectname
+        }/assets/`
+      }
+    })
+  }
+
   // Container-Queries
   if (
     context.props.projectcontainerqueries === true ||
     context.props.projectusage === 'craftCB' ||
+    context.props.projectusage === 'joomlaCB' ||
     context.props.projectusage === 'wordpressCB'
   ) {
     extend(files.pkg, {
@@ -155,7 +159,6 @@ function addScriptDependencies (files = {}, context) {
         vue: '^2.5.16'
       }
     })
-
     if (context.props.projectusage === 'webpackApp') {
       extend(files.pkg, {
         scripts: {
@@ -171,6 +174,55 @@ function addScriptDependencies (files = {}, context) {
         }
       })
     }
+  }
+
+  // If Vue with E2E Testing
+  if (
+    context.props.projectjsframework === 'vue' &&
+    context.props.projecttestinge2e === true
+  ) {
+    extend(files.pkg, {
+      devDependencies: {
+        '@vue/cli-plugin-e2e-cypress': '^3.0.0-beta.6'
+      }
+    })
+  }
+
+  // If Vue with Unit Testing
+  if (
+    context.props.projectjsframework === 'vue' &&
+    context.props.projecttestingunit === true
+  ) {
+    extend(files.pkg, {
+      scripts: {
+        'unit': 'jest'
+      },
+      devDependencies: {
+        '@vue/babel-preset-app': '^3.0.0-beta.6',
+        '@vue/server-test-utils': '^1.0.0-beta.14',
+        '@vue/test-utils': '^1.0.0-beta.14',
+        'babel-7-jest': '^21.3.3',
+        'babel-core': '^7.0.0-0',
+        'babel-jest': '^22.4.3',
+        'jest': '^22.4.3',
+        'jest-vue-preprocessor': '^1.4.0',
+        'regenerator-runtime': '^0.11.1',
+        'vue-jest': '^2.5.0'
+      }
+    })
+  }
+
+  // Adding Wallaby
+  // If Vue with Unit Testing
+  if (
+    context.props.projectjsframework === 'vue' &&
+    context.props.projecttestingwallaby === true
+  ) {
+    extend(files.pkg, {
+      devDependencies: {
+        'wallaby-vue-compiler': '^1.0.2'
+      }
+    })
   }
 
   if (

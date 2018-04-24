@@ -70,7 +70,7 @@ const projecttype = context => {
         conditions: {
           projectusage: 'craft'
         },
-        src: 'databases/craft.sql',
+        src: 'contentBuilder_stuff/databases/craft.sql',
         dest: 'database.sql'
       },
       {
@@ -131,7 +131,72 @@ const projecttype = context => {
         conditions: {
           projectusage: 'wordpress'
         },
-        src: 'databases/wordpress.sql',
+        src: 'contentBuilder_stuff/databases/wordpress.sql',
+        dest: 'database.sql'
+      },
+      {
+        conditions: {
+          projectusage: 'joomla',
+          projectcredential: true
+        },
+        src: 'install.sh',
+        dest: 'install.sh'
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'gulpfile_additions/copy-joomlafiles.js',
+        dest: 'gulpfile/tasks/copy-joomlafiles.js'
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'src/skeletons/joomla/_htaccess',
+        dest: 'dist/.htaccess'
+      },
+      {
+        conditions: {
+          projectusage: 'joomla',
+          projectcredential: true
+        },
+        src: 'src/skeletons/joomla/configuration-sample.php',
+        dest: 'dist/configuration.php'
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'src/skeletons/joomla/template_additions/language/de-DE/de-DE.tpl_projectname.ini',
+        dest: `src/structure/templates/${context.props.projectname}/language/de-DE/de-DE.tpl_${context.props.projectname}.ini`,
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'src/skeletons/joomla/template_additions/language/de-DE/de-DE.tpl_projectname.sys.ini',
+        dest: `src/structure/templates/${context.props.projectname}/language/de-DE/de-DE.tpl_${context.props.projectname}.sys.ini`,
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'src/skeletons/joomla/template_additions/language/en-GB/en-GB.tpl_projectname.ini',
+        dest: `src/structure/templates/${context.props.projectname}/language/en-GB/en-GB.tpl_${context.props.projectname}.ini`,
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'src/skeletons/joomla/template_additions/language/en-GB/en-GB.tpl_projectname.sys.ini',
+        dest: `src/structure/templates/${context.props.projectname}/language/en-GB/en-GB.tpl_${context.props.projectname}.sys.ini`,
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'contentBuilder_stuff/databases/joomla.sql',
         dest: 'database.sql'
       }
     ],
@@ -192,6 +257,20 @@ const projecttype = context => {
         },
         src: 'src/skeletons/wordpress/structure/templates',
         dest: 'src/structure/templates/'
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'src/skeletons/joomla/structure/templates',
+        dest: `src/structure/templates/${context.props.projectname}/`
+      },
+      {
+        conditions: {
+          projectusage: 'joomla'
+        },
+        src: 'src/skeletons/joomla/structure/plugins',
+        dest: 'src/structure/plugins/'
       },
       {
         orConditions: [

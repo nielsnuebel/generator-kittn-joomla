@@ -68,6 +68,10 @@ No whitespaces or special-chars allowed!}`
         {
           name: 'Create a website using Wordpress and ContentBuilder',
           value: 'wordpressCB'
+        },
+        {
+          name: 'Create a website using Joomla',
+          value: 'joomla'
         }
       ],
       store: true
@@ -99,6 +103,7 @@ No whitespaces or special-chars allowed!}`
       when: function (answers) {
         return (
           answers.projectusage === 'craft' ||
+          answers.projectusage === 'joomla' ||
           answers.projectusage === 'wordpress' ||
           answers.projectusage === 'html'
         )
@@ -129,6 +134,7 @@ No whitespaces or special-chars allowed!}`
       when: function (answers) {
         return (
           answers.projectusage === 'craft' ||
+          answers.projectusage === 'joomla' ||
           answers.projectusage === 'wordpress' ||
           answers.projectusage === 'html'
         )
@@ -147,6 +153,7 @@ No whitespaces or special-chars allowed!}`
       when: function (answers) {
         return (
           answers.projectusage === 'craft' ||
+          answers.projectusage === 'joomla' ||
           answers.projectusage === 'wordpress' ||
           answers.projectusage === 'html' ||
           answers.projectusage === 'webpackApp'
@@ -178,6 +185,7 @@ No whitespaces or special-chars allowed!}`
       when: function (answers) {
         return (
           answers.projectusage.substring(0, 5) === 'craft' ||
+          answers.projectusage.substring(0, 6) === 'joomla' ||
           answers.projectusage.substring(0, 4) === 'word'
         )
       },
@@ -203,6 +211,7 @@ No whitespaces or special-chars allowed!}`
       when: function (answers) {
         return (
           answers.projectusage.substring(0, 5) === 'craft' ||
+          answers.projectusage.substring(0, 6) === 'joomla' ||
           answers.projectusage.substring(0, 4) === 'word'
         )
       },
@@ -415,9 +424,9 @@ No whitespaces or special-chars allowed!}`
         headline: 'Add Prettier',
         description:
           'Do you want to use Prettier for automated Code-Formatting? (See prettier.io)',
-        defaultValue: false
+        defaultValue: true
       }),
-      default: false,
+      default: true,
       store: true
     },
     {
@@ -425,6 +434,7 @@ No whitespaces or special-chars allowed!}`
         return (
           answers.projectusage === 'craft' ||
           answers.projectusage.substring(0, 4) === 'word' ||
+          answers.projectusage.substring(0, 6) === 'joomla' ||
           answers.projectusage === 'html'
         )
       },
@@ -555,6 +565,45 @@ No whitespaces or special-chars allowed!}`
         headline: 'TypeScript Support',
         description: 'Do you want to use Typescript?',
         defaultValue: true
+      }),
+      default: false,
+      store: true
+    },
+    {
+      when: function (answers) {
+        return answers.projectjsframework === 'vue'
+      },
+      type: 'confirm',
+      name: 'projecttestingunit',
+      message: message({
+        headline: 'Unit Testing',
+        description: 'Should a unit test be integrated with Jest?',
+        defaultValue: false
+      }),
+      default: false,
+      store: true
+    },
+    {
+      type: 'confirm',
+      name: 'projecttestinge2e',
+      message: message({
+        headline: 'E2E Testing',
+        description: 'Should a unit test be integrated with Cypress?',
+        defaultValue: false
+      }),
+      default: false,
+      store: true
+    },
+    {
+      when: function (answers) {
+        return answers.projecttestingunit === true && answers.projectjsframework === 'vue'
+      },
+      type: 'confirm',
+      name: 'projecttestingwallaby',
+      message: message({
+        headline: 'Wallaby',
+        description: 'Should Wallaby be configured?',
+        defaultValue: false
       }),
       default: false,
       store: true
